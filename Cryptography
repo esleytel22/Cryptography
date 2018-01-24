@@ -1,0 +1,81 @@
+/**
+ * In this program you have a text file that has an decrypt
+ * and encrypt message. The scanner class will then read the message and decrypt or
+ * encrypt accordingly.
+ */
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
+import java.util.Scanner;
+public class Cryptography {
+	public static void main(String[] args ) throws FileNotFoundException {
+		Scanner console = new Scanner(System.in);
+		
+		//choose which text file to use.
+		System.out.print("Input file: ");
+		String inputFileName = console.next();
+		System.out.print("Output file: ");
+		String outputFileName = console.next();
+		
+		File inputFile = new File(inputFileName);
+		Scanner in = new Scanner(inputFile);
+		
+		//if no sentence in text file exit. 
+		if (!(in.hasNextLine())) {
+			System.out.println("A sentance is needed. "); 
+			System.exit(1);
+		}
+		PrintWriter out = new PrintWriter(outputFileName);
+		
+		while (in.hasNextLine()){
+			//"line" the input sentence.
+			String line = in.nextLine();
+			if (line.charAt(0) == 'E'){
+				int Col = Character.getNumericValue((line.charAt(1)));
+				char Encrypt[][] = new char[10][10]; //The encrypted message array
+				line = line.substring(2);
+				int temp = 0;
+				for (int i = 0; i < Col; i++){
+					for (int j = 0; j < Col ; j++){
+						if (line.length() > temp ){
+							Encrypt [i][j] = line.charAt(temp);
+							temp++;
+						}
+						if (line.length() <= temp ){
+							Encrypt [i][j] = 'Q';
+							temp++;
+							}
+						
+						}
+				}
+				for (int i = 0; i < Col; i++){
+					for (int j = 0; j < Col; j++){
+						out.print(Encrypt[j][i]);
+						}
+					}			
+				out.print("*\n");
+				}
+			if (line.charAt(0) == 'D'){
+				int Col = Character.getNumericValue((line.charAt(1)));
+				char Decrypt[][] = new char[10][10]; ////The decrypted message array 
+				line = line.substring(2);
+				int temp = 0;
+				for (int i = 0; i < Col; i++){
+					for (int j = 0; j < Col; j++){
+						Decrypt [j][i] = line.charAt(temp);
+						temp++;
+					}
+				}
+				for (int i = 0; i < Col; i++){
+					for (int j = 0; j < Col; j++){
+						out.print(Decrypt[i][j]);
+						}
+					}
+				out.print("*\n");
+				}
+			}
+		in.close();            
+		out.close();
+		console.close();
+		}
+	}
